@@ -36,7 +36,7 @@ canvas.pack()
 square_size = 50
 # Standard-Schachaufstellung
 pieces = [
-    ["R", "N", "B", "Bebik", "Tobai", "B", "N", "R"],
+    ["R", "N", "B", "BEBIK", "TOBAI", "B", "N", "R"],
     ["P", "P", "P", "P", "P", "P", "P", "P"],
     ["", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", ""],
@@ -105,6 +105,11 @@ def handle_click(event):
         selected_row, selected_col = row, col
     else:
         if is_valid_move(selected_piece, selected_row, selected_col, row, col):
+            target_piece = pieces[row][col]
+            # Verhindere, dass eigene Figuren geschlagen werden
+            if target_piece != "" and (selected_piece.isupper() == target_piece.isupper()):
+                selected_piece = None
+                return
             pieces[row][col] = selected_piece
             pieces[selected_row][selected_col] = ""
             draw_board(canvas, square_size)
